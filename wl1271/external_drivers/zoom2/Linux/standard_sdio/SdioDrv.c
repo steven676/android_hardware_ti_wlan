@@ -468,6 +468,12 @@ int sdio_tiwlan_suspend(struct device *dev)
 	}
 	sdioDrv_cancel_inact_timer();
 	sdioDrv_ReleaseHost(SDIO_WLAN_FUNC);
+#else
+	/*
+	 * XXX Work around suspend/resume race condition?
+	 * http://forum.cyanogenmod.com/topic/32316-sleep-of-death-debugging/page__p__260868#entry260868
+	 */
+	sdioDrv_ReleaseHost(SDIO_WLAN_FUNC);
 #endif
 	return rc;
 }
@@ -492,6 +498,12 @@ int sdio_tiwlan_resume(struct device *dev)
 		return(g_drv.wlanDrvIf_pm_resume());
 	}
 	else
+#else
+	/*
+	 * XXX Work around suspend/resume race condition?
+	 * http://forum.cyanogenmod.com/topic/32316-sleep-of-death-debugging/page__p__260868#entry260868
+	 */
+	sdioDrv_ClaimHost(SDIO_WLAN_FUNC);
 #endif
 	return 0;
 }
