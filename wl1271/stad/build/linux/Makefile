@@ -111,7 +111,7 @@ help:
 #
 .PHONY: clean
 clean:
-	$(MAKE) -C $(KERNEL_DIR) M=`pwd` ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) clean
+	$(MAKE) -C $(KERNEL_DIR) M=`pwd` ARCH=arm CROSS_COMPILE="$(CROSS_COMPILE)" clean
 	@rm -f *.o *.a .*.o.cmd *~ *.~* core .depend dep $(DK_OBJS) $(DEPS)
 
 
@@ -124,7 +124,7 @@ clean:
 # Recursively builds the library file.
 #
 $(OUTPUT_FILE):
-	$(MAKE) -C $(KERNEL_DIR) M=`pwd` ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) modules
+	$(MAKE) -C $(KERNEL_DIR) M=`pwd` ARCH=arm CROSS_COMPILE="$(CROSS_COMPILE)" modules
 	@$(CROSS_COMPILE)$(AR) rcs $@ $(DK_OBJS)
 
 
